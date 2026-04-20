@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Pokemon } from "../types/pokemon";
 
 const TYPE_MAP: Record<string, string> = {
@@ -81,9 +82,12 @@ export default function PokemonInfo({ pokemon }: { pokemon: Pokemon }) {
               gap: "0.5rem",
             }}
           >
-            <p style={{ margin: "0.25rem 0", textTransform: "capitalize" }}>
+            <Link
+              href={`/pokemon/${pokemon.name}`}
+              style={{ margin: "0.25rem 0", textTransform: "capitalize", color: "#0070f3", textDecoration: "none" }}
+            >
               {pokemon.name}
-            </p>
+            </Link>
             <p style={{ margin: "0.25rem 0", color: "#555" }}>#{pokemon.id}</p>
           </div>
           <div style={{ display: "flex", justifyContent: "left" }}>

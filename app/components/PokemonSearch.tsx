@@ -51,7 +51,7 @@ async function loadPokemons(
 
 export default async function PokemonSearch() {
   const pokemons = await loadPokemons(10, 0);
-
+  console.log("Server loaded");
   return (
     <div
       style={{

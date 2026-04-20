@@ -16,6 +16,7 @@ export function useFetch<T>(url: string, options: RequestInit = {}): { data: T |
         const jsonData: T = await res.json();
         setData(jsonData);
       } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
         setError(err instanceof Error ? err.message : "Unknown error");
       } finally {
         setIsLoading(false);
