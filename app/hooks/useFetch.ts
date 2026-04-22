@@ -1,17 +1,27 @@
-import { useEffect, useState } from 'react';
+"use client";
 
-export function useFetch<T>(url: string, options: RequestInit = {}): { data: T | null; error: string | null; isLoading: boolean } {
+import { useEffect, useState } from "react";
+
+export function useFetch<T>(
+  url: string,
+  options: RequestInit = {},
+): { data: T | null; error: string | null; isLoading: boolean } {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
+    if (!url) return;
     const abortController = new AbortController();
 
     async function fetchData() {
-
+      setIsLoading(true);
+      setError(null);
       try {
-        const res = await fetch(url, { ...options, signal: abortController.signal });
+        const res = await fetch(url, {
+          ...options,
+          signal: abortController.signal,
+        });
         if (!res.ok) throw new Error(`Failed to fetch: ${res.statusText}`);
         const jsonData: T = await res.json();
         setData(jsonData);
@@ -25,7 +35,7 @@ export function useFetch<T>(url: string, options: RequestInit = {}): { data: T |
 
     fetchData();
 
-    return () => abortController.abort(); 
+    return () => abortController.abort();
   }, [url, JSON.stringify(options)]);
 
   return { data, error, isLoading };
