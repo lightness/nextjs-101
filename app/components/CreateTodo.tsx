@@ -10,7 +10,9 @@ export default function CreateTodo() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  async function handleSubmit() {
+  async function handleSubmit(e) {
+    e.preventDefault();
+
     if (!text.trim()) return;
     setIsLoading(true);
     setError(null);
@@ -46,7 +48,7 @@ export default function CreateTodo() {
       />
       {error && <p className="text-red-500">{error}</p>}
       <div className="flex justify-end">
-        <Button type="submit" disabled={isLoading || !text.trim()}>
+        <Button disabled={isLoading || !text.trim()}>
           {isLoading ? "Adding..." : "➕ Add"}
         </Button>
       </div>
