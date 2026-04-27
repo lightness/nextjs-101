@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { SubmitEvent, useState } from "react";
 import Button from "./Button";
 
 export default function CreateTodo() {
@@ -10,7 +10,7 @@ export default function CreateTodo() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  async function handleSubmit(e) {
+  async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (!text.trim()) return;
