@@ -1,15 +1,12 @@
 'use server'
 
 import { revalidatePath } from 'next/cache';
-import { db } from '../../lib/db';
+import { finishTodo } from '../../lib/todos/todos.service';
 
-export default async function finishTodo(formData: FormData) {
+export default async function finishTodoAction(formData: FormData) {
   const id = formData.get('id') as string;
 
-  await db.todo.update({
-    where: { id: parseInt(id) },
-    data: { completedAt: new Date() },
-  });
+  await finishTodo(Number(id));
 
   revalidatePath('/');
 }

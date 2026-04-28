@@ -1,14 +1,12 @@
 'use server'
 
 import { revalidatePath } from 'next/cache';
-import { db } from '../../lib/db';
+import { deleteTodo } from '../../lib/todos/todos.service';
 
-export default async function deleteTodo(formData: FormData) {
+export default async function deleteTodoAction(formData: FormData) {
   const id = formData.get('id') as string;
 
-  await db.todo.delete({
-    where: { id: parseInt(id) },
-  });
+  await deleteTodo(Number(id));
 
   revalidatePath('/');
 }

@@ -1,14 +1,9 @@
-import { db } from "../../lib/db";
+import { getTodos } from "../../lib/todos/todos.service";
 import CreateTodo from "../components/CreateTodo";
 import TodoItem from "../components/TodoItem";
-import { Todo } from "../generated/prisma/client";
-
-async function fetchTodoItems(): Promise<Todo[]> {
-  return db.todo.findMany({ orderBy: { createdAt: "desc" } });
-}
 
 export default async function HomePage() {
-  const todoItems = await fetchTodoItems();
+  const todoItems = await getTodos();
 
   return (
     <div className="flex flex-col mx-auto min-w-100 gap-2">
