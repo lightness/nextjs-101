@@ -1,7 +1,7 @@
 'use server'
 
+import { createTodo } from '@/lib/todos/todos.service';
 import { revalidatePath } from 'next/cache';
-import { createTodo } from '../../lib/todos/todos.service';
 
 type ActionState = { error: string | null };
 

@@ -2,17 +2,14 @@ import deleteTodoAction from "../server-actions/delete-todo.action";
 import finishTodoAction from "../server-actions/finish-todo.action";
 import LinkButton from "./LinkButton";
 
-export default function TodoItem({
-  id,
-  text,
-  createdAt,
-  completedAt,
-}: {
+interface IProps {
   id: number;
   text: string;
   createdAt: Date;
   completedAt: Date | null;
-}) {
+}
+
+export default function TodoItem({ id, text, completedAt }: IProps) {
   return (
     <div className={`p-4 border rounded shadow-sm bg-white dark:bg-gray-800`}>
       <div className="flex flex-row justify-between items-start">

@@ -7,3 +7,8 @@ export interface IUpdateTodo {
   text?: string;
   completedAt?: Date;
 }
+
+export interface ITodoSearchParams {
+  includeCompleted?: boolean;
+  term?: string;
+}

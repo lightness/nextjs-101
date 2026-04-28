@@ -1,9 +1,17 @@
 import { db } from '../db';
 import { Todo } from '../generated/prisma/client';
-import { ICreateTodo, IUpdateTodo } from './interfaces';
+import { ICreateTodo, ITodoSearchParams, IUpdateTodo } from './interfaces';
 
-export async function getTodos(): Promise<Todo[]> {
-  return db.todo.findMany({ orderBy: { createdAt: "desc" } });
+export async function getTodos(searchParams: ITodoSearchParams): Promise<Todo[]> {
+  await new Promise((resolve) => setTimeout(resolve, 1500)); // Simulate network delay
+
+  return db.todo.findMany({ 
+    where: {
+      completedAt: searchParams.includeCompleted ? undefined : null,
+      text: searchParams.term ? { contains: searchParams.term } : undefined,
+    },
+    orderBy: { createdAt: "desc" } 
+  });
 }
 
 export async function createTodo({ text }: ICreateTodo): Promise<Todo> {

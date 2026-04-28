@@ -1,15 +1,33 @@
-import { getTodos } from "../../lib/todos/todos.service";
-import CreateTodo from "../components/CreateTodo";
-import TodoItem from "../components/TodoItem";
+import CreateTodo from "@/app/components/CreateTodo";
+import SearchBar from "@/app/components/SearchBar";
+import TodoItem from "@/app/components/TodoItem";
+import { getTodos } from "@/lib/todos/todos.service";
 
-export default async function HomePage() {
-  const todoItems = await getTodos();
+interface IHomePageSearchParams {
+  includeCompleted?: string;
+  term?: string;
+}
+
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams: IHomePageSearchParams;
+}) {
+  const params = await searchParams;
+  const includeCompleted = params.includeCompleted === "true";
+  const term = params.term || "";
+
+  const todoItems = await getTodos({ term, includeCompleted });
 
   return (
     <div className="flex flex-col mx-auto min-w-100 gap-2">
       <CreateTodo />
-      {todoItems &&
-        todoItems.map((item) => <TodoItem key={item.id} {...item} />)}
+
+      <SearchBar includeCompleted={includeCompleted} term={term} />
+
+      {todoItems.map((item) => (
+        <TodoItem key={item.id} {...item} />
+      ))}
     </div>
   );
 }

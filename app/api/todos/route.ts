@@ -1,4 +1,4 @@
-import { db } from "../../../lib/db";
+import { createTodo, getTodos } from "@/lib/todos/todos.service";
 
 export async function POST(req: Request) {
   const body = await req.json();
@@ -8,7 +8,13 @@ export async function POST(req: Request) {
     return Response.json({ error: "Text is required" }, { status: 400 });
   }
 
-  const todo = await db.todo.create({ data: { text } });
+  const todo = await createTodo({ text });
 
   return Response.json(todo, { status: 201 });
+}
+
+export async function GET() {
+  const todos = await getTodos({});
+
+  return Response.json(todos);
 }
